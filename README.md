@@ -1,7 +1,7 @@
 SEQUENCIA PARA CRAIAR O PROJETO
 
 CRIAR O PROJETO
-### npx create-react-app my-app
+### npx create-react-app crud
 
 ACESSAR DIRETORIO
 
