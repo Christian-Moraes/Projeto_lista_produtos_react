@@ -5,7 +5,7 @@ CRIAR O PROJETO
 
 ACESSAR DIRETORIO
 
-### cd my-app
+### cd crud
 
 RODAR O PROJETO REACT
 
