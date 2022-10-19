@@ -1,7 +1,10 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import {Home} from './pages/Home'
+import {Home} from './pages/Home';
+import {Cadastrar} from './pages/Cadastrar';
+import {Visualizar} from './pages/Visualizar';
+import {Login} from './pages/Login';
 
 function App() {
 
@@ -10,7 +13,10 @@ function App() {
     <div>
      <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
+        <Route path="/cadastrar" element={<Cadastrar />} />
+        <Route path="/visualizar/:id" element={<Visualizar />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
     </div>

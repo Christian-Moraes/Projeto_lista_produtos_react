@@ -1,6 +1,7 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import {Table, Titulo} from './styles';
+import {Container, ConteudoTitulo, BotaoAcao, ButtonSuccess, Table, Titulo} from './styles';
 
 export const Home = () => {
 
@@ -20,8 +21,16 @@ export const Home = () => {
   }, [])
 
   return (
-    <div>
-      <Titulo>Lista de Produtos</Titulo>
+    <Container>
+        <ConteudoTitulo>
+        <Titulo>Lista de produtos</Titulo>
+        <BotaoAcao>
+          <Link to="/cadastrar">
+            <ButtonSuccess>Cadastrar</ButtonSuccess>
+          </Link>
+        </BotaoAcao>
+      </ConteudoTitulo>
+      
       <Table>
         <thead>
           <tr>
@@ -37,12 +46,13 @@ export const Home = () => {
               <td>{produto.id}</td>
               <td>{produto.titulo}</td>
               <td>{produto.descricao}</td>
-              <td>Vizualizar Editar Apagar</td>
+              <td>
+                <Link to={"/visualizar/" + produto.id}>Visualizar</Link>Editar Apagar</td>
             </tr>
           ))}
         </tbody>
       </Table>
-    </div>
+    </Container>
   );
 }
 

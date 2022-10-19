@@ -1,0 +1,81 @@
+import React, { useState } from 'react';
+import {Link} from 'react-router-dom'
+
+import { Form, Container, Titulo, AlertSuccess, AlertDanger, ConteudoForm, Label, Input, ButtonSuccess, ConteudoTitulo, BotaoAcao, ButtonInfo } from './styles';
+
+export const Cadastrar = () => {
+
+  const [produto, setProduto] = useState({
+    titulo: '',
+    descricao: ''
+  });
+
+  const [status, setStatus] = useState({
+    type: '',
+    mensagem: ''
+  })
+
+  const valorInput = e => setProduto({ ...produto, [e.target.name]: e.target.value });
+
+  const cadProduto = async e => {
+    e.preventDefault();
+    //console.log(produto.titulo);
+
+    await fetch("http://localhost/API_react/cadastrar.php", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ produto })
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //console.log(responseJson)
+        if (responseJson.erro) {
+          setStatus({
+            type: 'erro',
+            mensagem: responseJson.messagem
+          });
+        } else {
+          setStatus({
+            type: 'success',
+            mensagem: responseJson.messagem
+          });
+        }
+      }).catch(() => {
+        setStatus({
+          type: 'erro',
+          mensagem: 'Produto não cadastro com sucesso, tente mais tarde!'
+        });
+      });
+  }
+
+  return (
+    <Container>
+      <ConteudoForm>
+        <ConteudoTitulo>
+        <Titulo>Cadastrar</Titulo>
+          <BotaoAcao>
+            <Link to="/">
+              <ButtonInfo>Listar</ButtonInfo>
+            </Link>
+          </BotaoAcao>
+        </ConteudoTitulo>
+
+        {status.type === 'erro' ? <AlertDanger>{status.mensagem}</AlertDanger> : ""}
+        {status.type === 'success' ? <AlertSuccess>{status.mensagem}</AlertSuccess> : ""}
+
+        <Form onSubmit={cadProduto}>
+          <Label>Título: </Label>
+          <Input type="text" name="titulo" placeholder="Título do produto" onChange={valorInput} /><br /><br />
+
+          <Label>Descrição: </Label>
+          <Input type="text" name="descricao" placeholder="Descrição do produto" onChange={valorInput} /><br /><br />
+
+          <ButtonSuccess type="submit">Cadastrar</ButtonSuccess>
+
+        </Form>
+      </ConteudoForm>
+    </Container>
+  );
+}
