@@ -1,14 +1,12 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import {Home} from './pages/Home';
-import {Cadastrar} from './pages/Cadastrar';
-import {Visualizar} from './pages/Visualizar';
-import {Login} from './pages/Login';
+import { Home } from './pages/Home';
+import { Cadastrar } from './pages/Cadastrar';
+import { Visualizar } from './pages/Visualizar';
+import { Editar } from './pages/Editar';
 
 function App() {
-
-
   return (
     <div>
      <Router>
@@ -16,6 +14,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/cadastrar" element={<Cadastrar />} />
         <Route path="/visualizar/:id" element={<Visualizar />} />
+        <Route path="/editar/:id" element={<Editar />} />
       </Routes>
     </Router>
     </div>
@@ -23,3 +22,4 @@ function App() {
 }
 
 export default App;
+

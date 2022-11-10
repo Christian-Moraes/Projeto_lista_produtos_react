@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import {Container, ConteudoTitulo, BotaoAcao, ButtonSuccess, Table, Titulo} from './styles';
+import {Container, ConteudoTitulo, BotaoAcao, ButtonSuccess, Table, Titulo, ButtonAcoes} from './styles';
+
+import { BsFillPlusSquareFill } from "react-icons/bs";
+import { MdDeleteForever, MdAutoFixNormal, MdRemoveRedEye } from "react-icons/md";
 
 export const Home = () => {
 
@@ -26,7 +29,7 @@ export const Home = () => {
         <Titulo>Lista de produtos</Titulo>
         <BotaoAcao>
           <Link to="/cadastrar">
-            <ButtonSuccess>Cadastrar</ButtonSuccess>
+            <ButtonSuccess> <BsFillPlusSquareFill/> Cadastrar </ButtonSuccess>
           </Link>
         </BotaoAcao>
       </ConteudoTitulo>
@@ -47,7 +50,15 @@ export const Home = () => {
               <td>{produto.titulo}</td>
               <td>{produto.descricao}</td>
               <td>
-                <Link to={"/visualizar/" + produto.id}>Visualizar</Link>Editar Apagar</td>
+                <Link to={"/visualizar/" + produto.id}>
+                  <ButtonAcoes><MdRemoveRedEye/>Visualizar</ButtonAcoes>
+                </Link>
+                <Link to={"/Editar/" + produto.id}>
+                  <ButtonAcoes><MdAutoFixNormal/>Editar</ButtonAcoes>
+                </Link>
+                <Link to={"/Apagar/" + produto.id}>
+                  <ButtonAcoes><MdDeleteForever/>Apagar</ButtonAcoes>
+                </Link> </td>
             </tr>
           ))}
         </tbody>
