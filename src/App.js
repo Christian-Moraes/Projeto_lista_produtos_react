@@ -9,7 +9,7 @@ import { Editar } from './pages/Editar';
 function App() {
   return (
     <div>
-     <Router>
+    <Router>
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/cadastrar" element={<Cadastrar />} />
