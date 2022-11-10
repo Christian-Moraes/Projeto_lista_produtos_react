@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import {Container, ConteudoTitulo, BotaoAcao, ButtonSuccess, Table, Titulo, ButtonAcoes} from './styles';
+import {Container, ConteudoTitulo, BotaoAcao, ButtonSuccess, Table, Titulo, ButtonAcoes, ButtonDanger, AlertDanger, AlertSuccess} from './styles';
 
 import { BsFillPlusSquareFill } from "react-icons/bs";
 import { MdDeleteForever, MdAutoFixNormal, MdRemoveRedEye } from "react-icons/md";
@@ -9,6 +9,11 @@ import { MdDeleteForever, MdAutoFixNormal, MdRemoveRedEye } from "react-icons/md
 export const Home = () => {
 
   const [data, setData] = useState([]);
+
+  const [status, setStatus] = useState({
+    type: '',
+    mensagem: ''
+  });
 
 
   const getProdutos = async () =>{
@@ -18,6 +23,30 @@ export const Home = () => {
       setData(responseJson.records)
     ));
   }
+
+  const apagarProduto = async (idProduto) => {
+    await fetch("http://localhost/API_react/apagar.php?id=" + idProduto)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson.erro) {
+          setStatus({
+            type: 'erro',
+            mensagem: responseJson.mensagem
+          });
+        } else {
+          setStatus({
+            type: 'success',
+            mensagem: responseJson.mensagem
+          });
+          getProdutos();
+        }
+      }).catch(() => {
+        setStatus({
+          type: 'erro',
+          mensagem: "Erro: Produto não apagado com sucesso, tente mais tarde"
+        });
+      });
+  };
   
   useEffect(()=>{
     getProdutos();
@@ -33,6 +62,9 @@ export const Home = () => {
           </Link>
         </BotaoAcao>
       </ConteudoTitulo>
+
+      {status.type === 'erro' ? <AlertDanger>{status.mensagem}</AlertDanger> : ""}
+      {status.type === 'success' ? <AlertSuccess>{status.mensagem}</AlertSuccess> : ""}
       
       <Table>
         <thead>
@@ -56,9 +88,8 @@ export const Home = () => {
                 <Link to={"/Editar/" + produto.id}>
                   <ButtonAcoes><MdAutoFixNormal/>Editar</ButtonAcoes>
                 </Link>
-                <Link to={"/Apagar/" + produto.id}>
-                  <ButtonAcoes><MdDeleteForever/>Apagar</ButtonAcoes>
-                </Link> </td>
+                <ButtonDanger onClick={() => apagarProduto(produto.id)}><MdDeleteForever/>Apagar</ButtonDanger>
+              </td>
             </tr>
           ))}
         </tbody>
