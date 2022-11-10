@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from 'react-router-dom';
-import { Form, Container, Titulo, ConteudoForm, Label, Input, ButtonWarning, ConteudoTitulo, BotaoAcao, ButtonInfo } from './styles';
+import { Form, Container, Titulo, ConteudoForm, Label, Input, ButtonWarning, ConteudoTitulo, BotaoAcao, ButtonInfo, AlertDanger, AlertSuccess } from './styles';
 
 export const Editar = () => {
   const { id } = useParams();
-  const [titulo, setTitulo] = useState(['']);
-  const [descricao, setDescricao] = useState(['']);
+  const [titulo, setTitulo] = useState('');
+  const [descricao, setDescricao] = useState('');
+
+  const [status, setStatus] = useState({
+    type: '',
+    mensagem: ''
+  })
 
   const editProduto = async e => {
     e.preventDefault();
@@ -19,6 +24,22 @@ export const Editar = () => {
     }).then((response) => response.json())
     .then((responseJson) =>{
       console.log(responseJson);
+      if(responseJson.erro){
+        setStatus({ 
+        type: 'error',
+        mensagem: responseJson.mensagem
+        })
+      }else{
+        setStatus({ 
+          type: 'success',
+          mensagem: responseJson.mensagem
+          });
+      }
+    }).catch(() => {
+      setStatus({ 
+        type: 'error',
+        mensagem: "Produto não editado, tente novamente mais tarde"
+        })
     });
   }
 
@@ -46,6 +67,8 @@ export const Editar = () => {
             </Link>
           </BotaoAcao>
         </ConteudoTitulo>
+        {status.type === 'erro' ? <AlertDanger>{status.mensagem}</AlertDanger> : ""}
+        {status.type === 'success' ? <AlertSuccess>{status.mensagem}</AlertSuccess> : ""}
 
         <Form onSubmit={editProduto}>
           <Label>Título: </Label>

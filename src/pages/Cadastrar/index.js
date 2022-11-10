@@ -34,12 +34,12 @@ export const Cadastrar = () => {
         if (responseJson.erro) {
           setStatus({
             type: 'erro',
-            mensagem: responseJson.messagem
+            mensagem: responseJson.mensagem
           });
         } else {
           setStatus({
             type: 'success',
-            mensagem: responseJson.messagem
+            mensagem: responseJson.mensagem
           });
         }
       }).catch(() => {
